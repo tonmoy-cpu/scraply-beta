@@ -25,12 +25,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#22b371" />
+        <meta name="description" content="Scraply - One stop solution to Recycle E-Waste, E-waste Facility Locator and Price Predictor" />
         <link
           rel="icon"
           href="/favicon.ico?<generated>"
           type="image/png"
           sizes="32x32"
         />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-5QLTMJKRNP"

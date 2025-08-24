@@ -125,14 +125,14 @@ const HeroSection: React.FC = () => {
   };
 
   return (
-    <section className="section hero" id="home" aria-label="hero">
+    <section className="section hero bg-gradient-to-br from-emerald-50 via-white to-teal-50" id="home" aria-label="hero">
       <div className="container mx-auto px-4">
-        <div className="hero-content text-center">
+        <div className="hero-content text-center animate-fade-in-up">
           <h1 className="h1 hero-title text-center md:text-start font-bold mb-6">
             Your technology partner for Innovative and Impactful
             <br />
             <motion.span
-              className="text-go-green pt-2"
+              className="text-go-green pt-2 text-shadow-md"
               variants={solutionVariants}
               initial="initial"
               animate="animate"
@@ -143,22 +143,22 @@ const HeroSection: React.FC = () => {
             </motion.span>
           </h1>
 
-          <p className="text-black mb-8 text-center md:text-start">
+          <p className="text-gray-700 mb-8 text-center md:text-start text-lg leading-relaxed">
             Scraply: Transforming E-Waste Management. Find E-waste facilities effortlessly
             with our platform. Your key to responsible recycling and sustainability.
           </p>
 
-          <div className="flex flex-row md:flex-row items-center justify-center md:justify-start sm:space-y-0 md:space-x-4 mb-10">
-            <Link href="/recycle" className="btn btn-primary mr-4">
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-10">
+            <Link href="/recycle" className="btn btn-primary btn-enhanced">
               Start Recycling
             </Link>
-            <Link href="/price-prediction" className="btn btn-secondary mr-4">
+            <Link href="/price-prediction" className="btn btn-secondary btn-enhanced">
               Predict Price
             </Link>
-            <Link href="/e-facilities" className="btn btn-primary mr-4">
+            <Link href="/e-facilities" className="btn btn-primary btn-enhanced">
               Locate Facility
             </Link>
-            <Link href="#" className="flex items-center text-primary">
+            <Link href="#" className="flex items-center text-primary hover:text-emerald-600 transition-colors">
               <div className="btn-icon mr-2">
                 <IonIcon
                   icon={play}
@@ -172,13 +172,13 @@ const HeroSection: React.FC = () => {
           </div>
         </div>
 
-        <div className="hero-banner has-before img-holder mx-auto mb-16">
+        <div className="hero-banner has-before img-holder mx-auto mb-16 animate-float">
           <Lottie animationData={animationData} />
         </div>
 
         {/* Chat with Gemini Button */}
         <button
-          className="aiChat fixed bottom-10 right-7 bg-go-green text-white rounded-full p-4 shadow-md cursor-pointer z-50 hover:bg-cyan-400 transition-colors"
+          className="aiChat fixed bottom-10 right-7 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-full p-4 shadow-lg cursor-pointer z-50 hover:shadow-xl hover:scale-110 transition-all duration-300 animate-pulse-glow"
           onClick={() => setIsChatOpen(!isChatOpen)}
           aria-label="Open chat with Gemini"
         >
@@ -197,7 +197,7 @@ const HeroSection: React.FC = () => {
           <ChatErrorBoundary>
             <motion.div
               ref={chatBoxRef}
-              className="fixed bottom-60 right-5 w-[90vw] max-w-[400px] sm:w-[400px] bg-white rounded-xl shadow-lg z-50 flex flex-col max-h-[70vh] sm:max-h-[500px]"
+              className="fixed bottom-60 right-5 w-[90vw] max-w-[400px] sm:w-[400px] bg-white rounded-xl shadow-2xl z-50 flex flex-col max-h-[70vh] sm:max-h-[500px] border border-gray-100"
               style={{ border: "2px solid var(--go-green)" }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -206,7 +206,7 @@ const HeroSection: React.FC = () => {
               aria-label="Chat with Gemini dialog"
             >
               {/* Chat Header */}
-              <div className="bg-gradient-to-r from-go-green to-blue-600 text-white p-3 rounded-t-xl flex justify-between items-center">
+              <div className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-3 rounded-t-xl flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <Image
                     src={logo}
@@ -220,7 +220,7 @@ const HeroSection: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setIsChatOpen(false)}
-                  className="text-black hover:text-gray-200 text-lg"
+                  className="text-white hover:text-gray-200 text-lg transition-colors"
                   aria-label="Close chat"
                 >
                   ✕
@@ -228,17 +228,17 @@ const HeroSection: React.FC = () => {
               </div>
 
               {/* Chat Messages */}
-              <div className="flex-1 p-4 overflow-y-auto bg-gray-50 rounded-lg">
+              <div className="flex-1 p-4 overflow-y-auto bg-gradient-to-b from-gray-50 to-white">
                 {messages.length === 0 ? (
                   <p className="text-gray-500 text-sm text-center">Start chatting...</p>
                 ) : (
                   messages.map((msg, index) => (
                     <div
                       key={index}
-                      className={`mb-3 p-3 rounded-lg text-sm max-w-[85%] shadow-sm ${
+                      className={`mb-3 p-3 rounded-lg text-sm max-w-[85%] shadow-sm transition-all ${
                         msg.role === "user"
-                          ? "bg-blue-500 text-white ml-auto"
-                          : "bg-white text-gray-800 border border-gray-200 mr-auto"
+                          ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white ml-auto"
+                          : "bg-white text-gray-800 border border-gray-200 mr-auto hover:shadow-md"
                       }`}
                     >
                       {msg.content}
@@ -246,7 +246,7 @@ const HeroSection: React.FC = () => {
                   ))
                 )}
                 {isLoading && (
-                  <div className="text-gray-500 text-sm text-center">Typing...</div>
+                  <div className="text-gray-500 text-sm text-center animate-pulse">Typing...</div>
                 )}
               </div>
 
@@ -259,13 +259,13 @@ const HeroSection: React.FC = () => {
                     onChange={(e) => setUserInput(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Ask something..."
-                    className="flex-1 p-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-go-green disabled:opacity-50"
+                    className="flex-1 p-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent disabled:opacity-50 transition-all"
                     disabled={isLoading}
                     aria-label="Chat input"
                   />
                   <button
                     onClick={handleSendMessage}
-                    className="bg-blue-700 text-white p-2 rounded-lg text-sm font-semibold hover:bg-blue-300 disabled:opacity-50 transition-colors"
+                    className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-2 rounded-lg text-sm font-semibold hover:shadow-md hover:scale-105 disabled:opacity-50 transition-all duration-200"
                     disabled={isLoading}
                     aria-label="Send message"
                   >

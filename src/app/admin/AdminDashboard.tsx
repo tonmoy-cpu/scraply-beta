@@ -1,9 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FiUsers, FiPackage, FiDollarSign, FiCheckCircle } from "react-icons/fi";
+import { FiUsers, FiPackage, FiDollarSign, FiCheckCircle, FiMessageSquare } from "react-icons/fi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PopupManagement from "./PopupManagement";
 
 interface User {
   _id: string;
@@ -178,7 +179,7 @@ const AdminDashboard: React.FC = () => {
         <div className="bg-white rounded-xl shadow-lg mb-8">
           <div className="border-b border-gray-200">
             <nav className="flex space-x-8 px-6">
-              {["overview", "users", "bookings"].map((tab) => (
+              {["overview", "users", "bookings", "popups"].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
@@ -188,7 +189,14 @@ const AdminDashboard: React.FC = () => {
                       : "border-transparent text-gray-500 hover:text-gray-700"
                   }`}
                 >
-                  {tab}
+                  {tab === "popups" ? (
+                    <span className="flex items-center">
+                      <FiMessageSquare className="mr-2" />
+                      Educational Popups
+                    </span>
+                  ) : (
+                    tab
+                  )}
                 </button>
               ))}
             </nav>
@@ -367,6 +375,10 @@ const AdminDashboard: React.FC = () => {
                   </table>
                 </div>
               </div>
+            )}
+
+            {activeTab === "popups" && (
+              <PopupManagement />
             )}
           </div>
         </div>

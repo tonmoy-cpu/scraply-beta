@@ -2,10 +2,12 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Education from "./Education";
+import EducationalPopup from "../Components/EducationalPopup";
 
 const Page = () => {
   return (
     <>
+      <EducationalPopup currentPage="education" />
       <motion.div
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}

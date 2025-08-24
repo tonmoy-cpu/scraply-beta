@@ -2,10 +2,12 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Recycle from "./Recycle";
+import EducationalPopup from "../Components/EducationalPopup";
 
 const Page = () => {
   return (
     <>
+      <EducationalPopup currentPage="recycle" />
       <motion.div
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
