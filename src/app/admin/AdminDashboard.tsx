@@ -42,18 +42,30 @@ const AdminDashboard: React.FC = () => {
     fetchBookings();
   }, []);
 
-  const fetchUsers = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/api/v1/users");
-      if (response.ok) {
-        const data = await response.json();
-        setUsers(data.data || []);
-      }
-    } catch (error) {
-      console.error("Error fetching users:", error);
-      toast.error("Failed to fetch users");
+ const fetchUsers = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch("http://localhost:5000/api/v1/users", {
+      headers: {
+        Authorization: token ? `Bearer ${token}` : "",
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      setUsers(data.data || []);
+    } else {
+      toast.error("Failed to fetch users (unauthorized?)");
     }
-  };
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    toast.error("Failed to fetch users");
+  }
+};
+
+
 
   const fetchBookings = async () => {
     try {

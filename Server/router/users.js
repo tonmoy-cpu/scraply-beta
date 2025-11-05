@@ -6,18 +6,17 @@ import {
   updateUser,
   deleteUser
 } from "../controllers/userController.js";
-import { verifyAdmin, verifyUser } from "../utils/verifyToken.js";
+import verifyToken, { verifyAdmin, verifyUser } from "../utils/verifyToken.js";
 
 const userRoute = express.Router();
 
-userRoute.post("/", verifyAdmin, createUser);
+// Admin-only routes
+userRoute.post("/", verifyToken, verifyAdmin, createUser);
+userRoute.get("/", verifyToken, verifyAdmin, getAllUsers);
 
-userRoute.get("/", verifyAdmin, getAllUsers);
-
-userRoute.get("/:id", verifyUser, getUserById);
-
-userRoute.put("/:id", verifyUser, updateUser);
-
-userRoute.delete("/:id", verifyUser, deleteUser);
+// User routes
+userRoute.get("/:id", verifyToken, verifyUser, getUserById);
+userRoute.put("/:id", verifyToken, verifyUser, updateUser);
+userRoute.delete("/:id", verifyToken, verifyUser, deleteUser);
 
 export default userRoute;

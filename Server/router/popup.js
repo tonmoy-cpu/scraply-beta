@@ -9,7 +9,7 @@ import {
   updatePopup,
   deletePopup,
 } from '../controllers/popupController.js';
-import { verifyAdmin } from '../utils/verifyToken.js';
+import verifyToken, { verifyAdmin } from '../utils/verifyToken.js';
 
 const popupRoute = express.Router();
 
@@ -19,10 +19,10 @@ popupRoute.get('/:id', getPopupById);
 popupRoute.post('/:id/view', trackPopupView);
 popupRoute.post('/:id/click', trackPopupClick);
 
-// Admin routes
-popupRoute.post('/', verifyAdmin, createPopup);
-popupRoute.get('/admin/all', verifyAdmin, getAllPopups);
-popupRoute.put('/:id', verifyAdmin, updatePopup);
-popupRoute.delete('/:id', verifyAdmin, deletePopup);
+// Admin routes (need verifyToken first!)
+popupRoute.post('/', verifyToken, verifyAdmin, createPopup);
+popupRoute.get('/admin/all', verifyToken, verifyAdmin, getAllPopups);
+popupRoute.put('/:id', verifyToken, verifyAdmin, updatePopup);
+popupRoute.delete('/:id', verifyToken, verifyAdmin, deletePopup);
 
 export default popupRoute;
