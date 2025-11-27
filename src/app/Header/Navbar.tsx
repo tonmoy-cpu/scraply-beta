@@ -128,6 +128,7 @@ const user = getUser();
             <NavItem label="Tracking" />
             <NavItem label="Blog" />
             {mounted && user?.role === "admin" && <NavItem label="Add Blog" />}
+            <NavItem label="Pledge" />
             <NavItem label="Contact Us" />
             <NavItem label="Rules" />
             {mounted && user?.role === "admin" && <NavItem label="Admin" />}
