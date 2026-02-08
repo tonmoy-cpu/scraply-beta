@@ -13,7 +13,6 @@ import { getEmail, getUser, getUserName, handleLogout, isAuthenticated } from ".
 import { FiUser } from 'react-icons/fi';
 import getLocation from "../utils/getLocation";
 
-
 interface NavItemProps {
   label: string;
 }
@@ -22,6 +21,7 @@ const Header = () => {
   const [isNavbarActive, setIsNavbarActive] = useState(false);
   const [isHeaderActive, setIsHeaderActive] = useState(false);
   const [locations, setLocation] = useState('');
+  const [user, setUser] = useState<any>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -82,7 +82,14 @@ const Header = () => {
     };
   }, []);
 
-const user = getUser();
+// const user = getUser();
+useEffect(() => {
+  document.documentElement.classList.remove('no-js');
+  setMounted(true);
+  const u = getUser();
+  setUser(u);
+}, []);
+
 
   const toggleNavbar = () => {
     setIsNavbarActive(!isNavbarActive);
@@ -140,7 +147,7 @@ const user = getUser();
           {locations || 'Loading...'}
         </h1>
 
-        {user ? (
+        {/* {user ? (
           <div className="relative">
             <button
               className="md:mr-8 text-sm md:text-xl font-semibold"
@@ -174,7 +181,49 @@ const user = getUser();
                   <>
                       <Link href="/sign-in" className="btn-md btn-outline md:mr-4">Sign In</Link>
                   </>
-                )}
+                )} */}
+        {mounted && (
+  user ? (
+    <div className="relative">
+      <button
+        className="md:mr-8 text-sm md:text-xl font-semibold"
+        onClick={handleToggleDropdown}
+      >
+        {user.username.charAt(0).toUpperCase() + user.username.slice(1)}
+      </button>
+
+      {isDropdownOpen && (
+        <div className="absolute top-12 right-0 projects p-4 shadow-md divide-y rounded-lg w-44 mt-2">
+          <Link href="/profile" className="hover:text-sky-500 block py-1">
+            Profile
+          </Link>
+
+          <Link href="/tracking" className="hover:text-sky-500 block py-1">
+            Track Pickups
+          </Link>
+
+          {user?.role === "admin" && (
+            <Link href="/admin" className="hover:text-sky-500 block py-1">
+              Admin Panel
+            </Link>
+          )}
+
+          <button
+            className="hover:text-sky-500 block py-1 text-left w-full"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        </div>
+      )}
+    </div>
+  ) : (
+    <Link href="/sign-in" className="btn-md btn-outline md:mr-4">
+      Sign In
+    </Link>
+  )
+)}
+
         <button
           className="nav-open-btn"
           aria-label="open menu"

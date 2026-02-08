@@ -46,10 +46,10 @@ if (!process.env.GEMINI_API_KEY) {
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({
-  model: "gemini-2.0-flash-lite",
+  model: "gemini-2.5-flash-lite",
   generationConfig: {
-    temperature: 0.7,
-    maxOutputTokens: 200,
+    temperature: 0.4,
+    maxOutputTokens: 500,
   },
   safetySettings: [
     { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
@@ -62,15 +62,32 @@ const model = genAI.getGenerativeModel({
 const getAIResponse = async (message) => {
   console.log("Gemini request:", message);
   try {
-    const result = await model.generateContent(message);
+    const prompt = `
+You are an e-waste assistant for the Scraply platform.
+
+Rules:
+- Give short, precise, and complete answers.
+- Use bullet points when possible.
+- Do not write long paragraphs.
+- Keep responses under 6 points.
+- Focus on practical, real-world information.
+
+User question:
+${message}
+`;
+
+    const result = await model.generateContent(prompt);
     const responseText = result.response.text();
+
     console.log("Gemini response:", responseText);
     return responseText;
   } catch (error) {
     console.error("Gemini API error:", error);
+
     if (error.message?.includes("API key")) {
       return "Invalid or missing API key. Please contact support.";
     }
+
     if (error.name === "ResponseStoppedException") {
       if (error.message.includes("SAFETY")) {
         return "Content blocked due to safety concerns. Please rephrase your message.";
@@ -79,9 +96,11 @@ const getAIResponse = async (message) => {
         return "Response stopped due to recitation issues. Try a different question.";
       }
     }
+
     return "Failed to generate response. Please try again later.";
   }
 };
+
 
 // ------------------- Routes -------------------
 app.get("/", (req, res) => {
