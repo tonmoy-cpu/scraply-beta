@@ -10,6 +10,7 @@ import blogRoute from "./router/blog.js";
 import facilityRoute from "./router/facility.js";
 import popupRoute from "./router/popup.js";   // ✅ import popup routes
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { scraplyKnowledge } from "./utils/scraplyKnowledge.js";
 
 dotenv.config();
 const app = express();
@@ -61,16 +62,27 @@ const model = genAI.getGenerativeModel({
 
 const getAIResponse = async (message) => {
   console.log("Gemini request:", message);
+
   try {
     const prompt = `
-You are an e-waste assistant for the Scraply platform.
+You are the official AI assistant for the Scraply platform.
+
+Your job:
+- Help users with Scraply features
+- Answer only about e-waste and Scraply services
+- Use only the platform knowledge below
+- Do NOT answer unrelated questions
+
+If the question is not related to Scraply or e-waste, say:
+"I can only help with Scraply services and e-waste related questions."
+
+Platform knowledge:
+${scraplyKnowledge}
 
 Rules:
-- Give short, precise, and complete answers.
-- Use bullet points when possible.
-- Do not write long paragraphs.
-- Keep responses under 6 points.
-- Focus on practical, real-world information.
+- Use short bullet points
+- Maximum 5 points
+- Keep answers simple and clear
 
 User question:
 ${message}
@@ -83,21 +95,7 @@ ${message}
     return responseText;
   } catch (error) {
     console.error("Gemini API error:", error);
-
-    if (error.message?.includes("API key")) {
-      return "Invalid or missing API key. Please contact support.";
-    }
-
-    if (error.name === "ResponseStoppedException") {
-      if (error.message.includes("SAFETY")) {
-        return "Content blocked due to safety concerns. Please rephrase your message.";
-      }
-      if (error.message.includes("RECITATION")) {
-        return "Response stopped due to recitation issues. Try a different question.";
-      }
-    }
-
-    return "Failed to generate response. Please try again later.";
+    return "Sorry, I’m having trouble responding right now. Please try again later.";
   }
 };
 
