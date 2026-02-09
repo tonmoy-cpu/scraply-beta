@@ -90,14 +90,14 @@ const PopupDetailPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-50 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-50 py-20">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           {/* Back Button */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="mb-8"
+            className="mb-8 pt-20"
           >
             <Link
               href="/"

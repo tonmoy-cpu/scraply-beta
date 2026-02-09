@@ -62,9 +62,9 @@ const CertificateBase: ForwardRefRenderFunction<HTMLDivElement, CertificateProps
     // so the DOWNLOADED certificate looks perfect
     const nameTop = mode === "preview" ? "58%" : "56.5%";
     const bottomDateLeft = mode === "preview" ? "15%" : "17.5%";
-    const signatureRight = mode === "preview" ? "19%" : "18.5%";
+    // const signatureRight = mode === "preview" ? "19%" : "18.5%";
     const certficateId = mode === "preview" ? "7%" : "10%";
-    const signatureBottom = mode === "preview" ? "14%" : "16.5%";
+    // const signatureBottom = mode === "preview" ? "14%" : "16.5%";
 
     return (
       <div ref={ref} style={{ ...baseStyle, ...modeStyle }}>
@@ -84,11 +84,12 @@ const CertificateBase: ForwardRefRenderFunction<HTMLDivElement, CertificateProps
           style={{
             position: "absolute",
             top: nameTop,
-            left: "56%",
+            left: "58%",
             transform: "translate(-50%, -50%)",
-            fontSize: 30,
-            fontWeight: 700,
-            color: "#d11c1c",
+            fontFamily: "cursive",
+            fontSize: 25,
+            fontWeight: 600,
+            color: '#40513B',
             textAlign: "center",
             maxWidth: "80%",
             whiteSpace: "nowrap",
@@ -135,7 +136,7 @@ const CertificateBase: ForwardRefRenderFunction<HTMLDivElement, CertificateProps
         </div>
 
         {/* Signature (user name) on Signature line */}
-        <div
+        {/* <div
           style={{
             position: "absolute",
             bottom: signatureBottom,
@@ -144,7 +145,7 @@ const CertificateBase: ForwardRefRenderFunction<HTMLDivElement, CertificateProps
           }}
         >
           {data.fullName}
-        </div>
+        </div> */}
       </div>
     );
   };

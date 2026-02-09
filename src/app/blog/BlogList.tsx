@@ -7,6 +7,9 @@ import { FiCalendar, FiUser, FiArrowRight } from "react-icons/fi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { getUser } from "../sign-in/auth";
+
+
 interface Blog {
   _id: string;
   title: string;
@@ -22,6 +25,15 @@ interface Blog {
 }
 
 const BlogList: React.FC = () => {
+  const [user, setUser] = useState<any>(null);
+const [mounted, setMounted] = useState(false);
+
+useEffect(() => {
+  setMounted(true);
+  const u = getUser();
+  setUser(u);
+}, []);
+
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [featuredBlogs, setFeaturedBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
@@ -128,12 +140,15 @@ const BlogList: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           className="flex justify-end mb-6"
         >
-          <Link
-            href="/blog/AddBlog"
-            className="bg-go-green text-white font-semibold px-6 py-2 rounded-lg shadow hover:bg-eco-green transition-colors"
-          >
-            + Add Blog
-          </Link>
+          {mounted && user?.role === "admin" && (
+        <Link
+         href="/blog/AddBlog"
+         className="bg-go-green text-black font-semibold px-6 py-2 rounded-lg shadow hover:bg-eco-green transition-colors"
+         >
+         + Add Blog
+        </Link>
+         )}
+
         </motion.div>
         {/* Header */}
         <motion.div
