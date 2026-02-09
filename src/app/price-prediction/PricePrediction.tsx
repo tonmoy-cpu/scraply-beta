@@ -166,7 +166,7 @@ const PricePrediction: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
       <ToastContainer />
       
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl py-10 mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

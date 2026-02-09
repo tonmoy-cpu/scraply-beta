@@ -8,13 +8,16 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        "go-green": "#22b371",
+        "eco-green": "#1e9e63",
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       spacing: {
-
         '120': "30rem",
         '128': '32rem',
         '140': '35rem',
@@ -34,4 +37,5 @@ const config: Config = {
   },
   plugins: [],
 }
+
 export default config
