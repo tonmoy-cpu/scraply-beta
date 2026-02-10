@@ -59,7 +59,7 @@ const Smartphone: React.FC = () => {
   useEffect(() => {
     const fetchFacilities = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/v1/facility");
+        const response = await fetch("https://scraply-beta.onrender.com/api/v1/facility");
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -249,7 +249,7 @@ const Smartphone: React.FC = () => {
       setIsLoading(true);
 
       try {
-        const response = await fetch("http://localhost:5000/api/v1/booking", {
+        const response = await fetch("https://scraply-beta.onrender.com/api/v1/booking", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

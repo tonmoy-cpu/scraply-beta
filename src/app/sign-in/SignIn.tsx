@@ -39,7 +39,7 @@ const Signin: React.FC = () => {
     toast.loading("Loading..");
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/login",
+        "https://scraply-beta.onrender.com/api/v1/auth/login",
         formData
       );
 

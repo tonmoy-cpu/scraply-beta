@@ -58,7 +58,7 @@ const Laptop: React.FC = () => {
   );
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/v1/facility")
+    fetch("https://scraply-beta.onrender.com/api/v1/facility")
       .then((response) => response.json())
       .then((data) => {
         setFacilityData(data);
@@ -211,7 +211,7 @@ const Laptop: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/v1/booking", {
+      const response = await fetch("https://scraply-beta.onrender.com/api/v1/booking", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

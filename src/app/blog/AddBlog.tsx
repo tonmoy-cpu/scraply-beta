@@ -17,7 +17,7 @@ const AddBlog: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/v1/blogs", {
+      const response = await fetch("https://scraply-beta.onrender.com/api/v1/blogs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title, content, author, photo, featured }),

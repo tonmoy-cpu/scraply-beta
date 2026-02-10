@@ -46,7 +46,7 @@ const AdminDashboard: React.FC = () => {
   try {
     const token = localStorage.getItem("token");
 
-    const response = await fetch("http://localhost:5000/api/v1/users", {
+    const response = await fetch("https://scraply-beta.onrender.com/api/v1/users", {
       headers: {
         Authorization: token ? `Bearer ${token}` : "",
         "Content-Type": "application/json",
@@ -69,7 +69,7 @@ const AdminDashboard: React.FC = () => {
 
   const fetchBookings = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/v1/booking");
+      const response = await fetch("https://scraply-beta.onrender.com/api/v1/booking");
       if (response.ok) {
         const data = await response.json();
         setBookings(data.data || []);
@@ -84,7 +84,7 @@ const AdminDashboard: React.FC = () => {
 
   const updateBookingStatus = async (bookingId: string, status: string) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/booking/${bookingId}`, {
+      const response = await fetch(`https://scraply-beta.onrender.com/api/v1/booking/${bookingId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

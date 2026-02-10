@@ -40,7 +40,7 @@ const TrackingPage: React.FC = () => {
         return;
       }
 
-      const response = await fetch(`http://localhost:5000/api/v1/booking/user/${userId}`);
+      const response = await fetch(`https://scraply-beta.onrender.com/api/v1/booking/user/${userId}`);
       if (response.ok) {
         const data = await response.json();
         setBookings(data.data || []);

@@ -16,7 +16,7 @@ interface EducationalPopupProps {
   currentPage?: string;
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://scraply-beta.onrender.com";
 
 const EducationalPopup: React.FC<EducationalPopupProps> = ({ currentPage = "all" }) => {
   const [popup, setPopup] = useState<PopupData | null>(null);

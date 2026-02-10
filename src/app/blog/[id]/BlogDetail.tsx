@@ -38,7 +38,7 @@ const BlogDetail: React.FC = () => {
 
   const fetchBlog = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/blogs/${id}`);
+      const response = await fetch(`https://scraply-beta.onrender.com/api/v1/blogs/${id}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -53,7 +53,7 @@ const BlogDetail: React.FC = () => {
 
   const fetchRelatedBlogs = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/v1/blogs");
+      const response = await fetch("https://scraply-beta.onrender.com/api/v1/blogs");
       if (response.ok) {
         const data = await response.json();
         const blogs = Array.isArray(data) ? data : [];

@@ -46,7 +46,7 @@ useEffect(() => {
 
   const fetchBlogs = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/v1/blogs");
+      const response = await fetch("https://scraply-beta.onrender.com/api/v1/blogs");
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -61,7 +61,7 @@ useEffect(() => {
 
   const fetchFeaturedBlogs = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/v1/blogs/featured");
+      const response = await fetch("https://scraply-beta.onrender.com/api/v1/blogs/featured");
       if (response.ok) {
         const data = await response.json();
         setFeaturedBlogs(data.data || []);

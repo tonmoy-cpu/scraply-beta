@@ -42,7 +42,7 @@ const SignUp: React.FC = () => {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/v1/auth/register",
+        "https://scraply-beta.onrender.com/api/v1/auth/register",
         formData
       );
 

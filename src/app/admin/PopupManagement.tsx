@@ -58,7 +58,7 @@ const PopupManagement: React.FC = () => {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await fetch("http://localhost:5000/api/v1/popups/admin/all", {
+      const response = await fetch("https://scraply-beta.onrender.com/api/v1/popups/admin/all", {
         headers: {
           Authorization: token ? `Bearer ${token}` : "",
           "Content-Type": "application/json",
@@ -86,8 +86,8 @@ const PopupManagement: React.FC = () => {
     try {
       const token = getToken();
       const url = editingPopup
-        ? `http://localhost:5000/api/v1/popups/${editingPopup._id}`
-        : "http://localhost:5000/api/v1/popups";
+        ? `https://scraply-beta.onrender.com/api/v1/popups/${editingPopup._id}`
+        : "https://scraply-beta.onrender.com/api/v1/popups";
 
       const method = editingPopup ? "PUT" : "POST";
 
@@ -125,7 +125,7 @@ const PopupManagement: React.FC = () => {
     try {
       const token = getToken();
       const response = await fetch(
-        `http://localhost:5000/api/v1/popups/${id}`,
+        `https://scraply-beta.onrender.com/api/v1/popups/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -150,7 +150,7 @@ const PopupManagement: React.FC = () => {
     try {
       const token = getToken();
       const response = await fetch(
-        `http://localhost:5000/api/v1/popups/${popup._id}`,
+        `https://scraply-beta.onrender.com/api/v1/popups/${popup._id}`,
         {
           method: "PUT",
           headers: {
