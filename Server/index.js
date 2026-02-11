@@ -24,7 +24,7 @@ app.use(cookieParser());
 const allowedOrigins = [
   "http://localhost:3000",
   "https://turbo-space-giggle-wxw795jxxxg25xwp-3000.app.github.dev",
-  "https://scraply-deployment.vercel.app/"
+  "https://scraply-deployment.vercel.app"
 ];
 
 app.use(
