@@ -143,17 +143,25 @@ const PricePrediction: React.FC = () => {
         toast.error(`Prediction failed: ${errorData.error || "Unknown error"}`);
       }
     } catch (error) {
-      console.error("Error predicting price:", error);
-      if (error.name === 'AbortError') {
-        toast.error("Request timed out. Please try again.");
-      } else if (error.message.includes('fetch')) {
-        toast.error("Network error. Please check your connection and try again.");
-      } else {
-        toast.error("Failed to connect to prediction service. Please try again later.");
-      }
-    } finally {
-      setLoading(false);
+  console.error("Error predicting price:", error);
+
+  let errorMessage =
+    "Failed to connect to prediction service. Please try again later.";
+
+  if (error instanceof Error) {
+    if (error.name === "AbortError") {
+      errorMessage = "Request timed out. Please try again.";
+    } else if (error.message.includes("fetch")) {
+      errorMessage =
+        "Network error. Please check your connection and try again.";
     }
+  }
+
+  toast.error(errorMessage);
+} finally {
+  setLoading(false);
+}
+
   };
 
   const brands = ["Acer", "Anker", "Apple", "Asus", "Bosch", "Dell", "Generic", "Godrej", "HP", "Haier", "Hisense", "JBL", "LG", "Lenovo", "Logitech", "MI", "MSI", "Motorola", "Nokia", "OPPO", "OnePlus", "Panasonic", "Philips", "Realme", "Samsung", "Sharp", "Sony", "TCL", "Toshiba", "Vivo", "Vizio", "Whirlpool", "Xiaomi", "boAt"];

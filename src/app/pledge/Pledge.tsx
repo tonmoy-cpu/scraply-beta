@@ -8,6 +8,7 @@ import React, {
   ForwardRefRenderFunction,
 } from "react";
 import { useForm } from "react-hook-form";
+import Image from "next/image";
 
 type PledgeFormValues = {
   consent: boolean;
@@ -68,17 +69,16 @@ const CertificateBase: ForwardRefRenderFunction<HTMLDivElement, CertificateProps
 
     return (
       <div ref={ref} style={{ ...baseStyle, ...modeStyle }}>
-        <img
-          src="/assets/pledge-certificate-template.png"
-          alt="Pledge Certificate"
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-          }}
-        />
-
+        <Image
+         src="/assets/pledge-certificate-template.png"
+         alt="Pledge Certificate"
+         fill
+         priority
+         style={{
+         objectFit: "cover",
+         }}
+         />
+         
         {/* Name on the main line */}
         <div
           style={{

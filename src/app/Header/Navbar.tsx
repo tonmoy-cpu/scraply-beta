@@ -29,42 +29,132 @@ const Header = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  useEffect(() => {
-    document.documentElement.classList.remove('no-js');
-    setMounted(true);
+//   useEffect(() => {
+//   if (!navigator.geolocation) {
+//     console.warn("Geolocation not supported");
+//     setLocation("Location unavailable");
+//     return;
+//   }
 
-    if (navigator.geolocation) {
-      const options = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0
-      };
+//   const options = {
+//     enableHighAccuracy: false, // faster & more reliable
+//     timeout: 15000,            // 15 seconds
+//     maximumAge: 60000,         // allow cached location (1 min)
+//   };
 
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
+//   navigator.geolocation.getCurrentPosition(
+//     async (position) => {
+//       try {
+//         const lat = position.coords.latitude;
+//         const lon = position.coords.longitude;
 
-          fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=pk.eyJ1Ijoic2h1ZW5jZSIsImEiOiJjbG9wcmt3czMwYnZsMmtvNnpmNTRqdnl6In0.vLBhYMBZBl2kaOh1Fh44Bw`)
-            .then(response => response.json())
-            .then(data => {
-              const city = data.features[0].context.find((context: { id: string | string[]; }) => context.id.includes('place')).text;
-              const state = data.features[0].context.find((context: { id: string | string[]; }) => context.id.includes('region')).text;
-              setLocation(`${city}, ${state}`);
-            })
-            .catch(error => {
-              console.error('Error:', error);
-            });
-        },
-        (error) => {
-          console.error(error);
-        },
-        options
-      );
-    } else {
-      console.error('Geolocation is not supported by this browser.');
+//         const response = await fetch(
+//           `https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=pk.eyJ1Ijoic2h1ZW5jZSIsImEiOiJjbG9wcmt3czMwYnZsMmtvNnpmNTRqdnl6In0.vLBhYMBZBl2kaOh1Fh44Bw`
+//         );
+
+//         const data = await response.json();
+
+//         const context = data.features?.[0]?.context || [];
+
+//         const city =
+//           context.find((c: any) => c.id.includes("place"))?.text || "";
+
+//         const state =
+//           context.find((c: any) => c.id.includes("region"))?.text || "";
+
+//         const locationText =
+//           city && state ? `${city}, ${state}` : city || state || "Location unavailable";
+
+//         setLocation(locationText);
+//       } catch (err) {
+//         console.warn("Mapbox fetch error:", err);
+//         setLocation("Location unavailable");
+//       }
+//     },
+//     (error) => {
+//       console.warn("Geolocation error:", error);
+//       setLocation("Location unavailable");
+//     },
+//     options
+//   );
+// }, []);
+
+useEffect(() => {
+  const STORAGE_KEY = "scraply_user_location";
+
+  // 1. Load cached location instantly
+  const cachedLocation = localStorage.getItem(STORAGE_KEY);
+  if (cachedLocation) {
+    setLocation(cachedLocation);
+  }
+
+  // Helper to fetch location from IP
+  const fetchLocationFromIP = async () => {
+    try {
+      const res = await fetch("https://ipapi.co/json/");
+      const data = await res.json();
+
+      const locationText = `${data.city}, ${data.region}`;
+      setLocation(locationText);
+      localStorage.setItem(STORAGE_KEY, locationText);
+    } catch (err) {
+      console.warn("IP location failed:", err);
+      setLocation("Location unavailable");
     }
-  }, []);
+  };
+
+  // 2. Try GPS location
+  if (!navigator.geolocation) {
+    fetchLocationFromIP();
+    return;
+  }
+
+  const options = {
+    enableHighAccuracy: false,
+    timeout: 15000,
+    maximumAge: 60000,
+  };
+
+  navigator.geolocation.getCurrentPosition(
+    async (position) => {
+      try {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        const response = await fetch(
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=pk.eyJ1Ijoic2h1ZW5jZSIsImEiOiJjbG9wcmt3czMwYnZsMmtvNnpmNTRqdnl6In0.vLBhYMBZBl2kaOh1Fh44Bw`
+        );
+
+        const data = await response.json();
+        const context = data.features?.[0]?.context || [];
+
+        const city =
+          context.find((c: any) => c.id.includes("place"))?.text || "";
+
+        const state =
+          context.find((c: any) => c.id.includes("region"))?.text || "";
+
+        const locationText =
+          city && state
+            ? `${city}, ${state}`
+            : city || state || "Location unavailable";
+
+        setLocation(locationText);
+        localStorage.setItem(STORAGE_KEY, locationText);
+      } catch (err) {
+        console.warn("Mapbox error, falling back to IP:", err);
+        fetchLocationFromIP();
+      }
+    },
+    (error) => {
+      console.warn("GPS error, using IP fallback:", error);
+      fetchLocationFromIP();
+    },
+    options
+  );
+}, []);
+
+
 
   useEffect(() => {
     const handleScroll = () => {

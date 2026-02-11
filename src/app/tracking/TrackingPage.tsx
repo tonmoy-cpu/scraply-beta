@@ -146,7 +146,7 @@ const TrackingPage: React.FC = () => {
           >
             <FiPackage className="text-6xl text-gray-400 mx-auto mb-4" />
             <h2 className="text-2xl font-bold text-gray-900 mb-4">No Bookings Found</h2>
-            <p className="text-gray-600 mb-6">You haven't made any recycling bookings yet.</p>
+            <p className="text-gray-600 mb-6">You haven&apos;t made any recycling bookings yet.</p>
             <a href="/recycle" className="btn btn-primary">
               Book a Pickup
             </a>

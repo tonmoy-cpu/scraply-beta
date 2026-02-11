@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { IonIcon } from "@ionic/react";
+// import { IonIcon } from "@ionic/react";
 import { paperPlane } from "ionicons/icons";
 import { location } from "ionicons/icons";
 import { call } from "ionicons/icons";
@@ -15,6 +15,12 @@ import Image from "next/image";
 import emailjs from "@emailjs/browser";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import dynamic from "next/dynamic";
+
+const IonIcon = dynamic(
+  () => import("@ionic/react").then((mod) => mod.IonIcon),
+  { ssr: false }
+);
 
 const Footer = () => {
   const [formData, setFormData] = useState({

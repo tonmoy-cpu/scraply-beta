@@ -2,9 +2,12 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import Script from "next/script";
-import NextTopLoader from 'nextjs-toploader';
-import Navbar from "./Header/Navbar";
+// import NextTopLoader from 'nextjs-toploader';
+import TopLoader from "./Components/TopLoader";
+// import Navbar from "./Header/Navbar";
 import Footer from "./Footer/Footer";
+import dynamic from "next/dynamic";
+const Navbar = dynamic(() => import("./Header/Navbar"), { ssr: false });
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -37,41 +40,42 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <Script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-5QLTMJKRNP"
-        ></Script>
+  src="https://www.googletagmanager.com/gtag/js?id=G-5QLTMJKRNP"
+  strategy="afterInteractive"
+/>
+<Script
+  id="google-analytics"
+  strategy="afterInteractive"
+>
+{`
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5QLTMJKRNP');
+`}
+</Script>
+
         <Script
-          id="google-analytics"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-5QLTMJKRNP');
-              `,
-          }}
-        />
-        <Script
-          id="tawk_chatbot"
-          type="text/javascript"
-          dangerouslySetInnerHTML={{
-            __html: `
-                var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-                (function(){
-                  var s1=document.createElement("script");
-                  var s0=document.getElementsByTagName("script")[0];
-                  s1.async=true;
-                  s1.src='https://embed.tawk.to/67e30e7b3f1081190ac0438f/1in7f158t';
-                  s1.charset='UTF-8';
-                  s1.setAttribute('crossorigin','*');
-                  s0.parentNode.insertBefore(s1,s0);
-                })();
-              `,
-          }}
-        />
+  id="tawk_chatbot"
+  strategy="afterInteractive"
+>
+{`
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+  (function(){
+    var s1=document.createElement("script");
+    var s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/67e30e7b3f1081190ac0438f/1in7f158t';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+  })();
+`}
+</Script>
+
       </head>
       <body className={poppins.className}>
-        <NextTopLoader color="#28af60" showSpinner={false}/>
+        <TopLoader />
         <Navbar />
         <main className="pt-32">
         {children}

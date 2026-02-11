@@ -1,27 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'avatars.githubusercontent.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.freepik.com',
-      },
-      { protocol: 'https', 
-        hostname: 'stock.adobe.com' 
-      },
-      { protocol: 'https', 
-        hostname: 'imgs.search.brave.com' 
-      },
-      { protocol: 'https', 
-        hostname: 'img.freepik.com' 
-      },
+    domains: [
+      "avatars.githubusercontent.com",
+      "www.freepik.com",
+      "stock.adobe.com",
+      "imgs.search.brave.com",
+      "img.freepik.com",
+      "png.pngtree.com",
+      "encrypted-tbn0.gstatic.com",
+      "www.pngall.com",
     ],
   },
 };
 
-const withVideos = require('next-videos');
+const withVideos = require("next-videos");
 module.exports = withVideos(nextConfig);

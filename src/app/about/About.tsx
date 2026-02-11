@@ -4,7 +4,11 @@ import Link from "next/link";
 import React from "react";
 import feature from "../../assets/features/banner.svg";
 import animationData from "../../assets/animation-1.json";
-import Lottie from "lottie-react";
+import dynamic from "next/dynamic";
+// import Lottie from "lottie-react";
+const Lottie = dynamic(() => import("lottie-react"), {
+  ssr: false,
+});
 
 const teamMembers = [
   {
@@ -110,12 +114,14 @@ const About = () => {
           {teamMembers.map((member, index) => (
             <div key={index} className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow duration-300">
               <div className="relative mb-4">
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="w-24 h-24 rounded-full mx-auto object-cover border-4 border-go-green"
-                  style={{ height: 'auto' }}
-                />
+                <Image
+                 src={member.image}
+                 alt={member.name}
+                 width={96}
+                 height={96}
+                 className="rounded-full mx-auto object-cover border-4 border-go-green"
+                 />
+
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">{member.name}</h3>
               <p className="text-go-green font-semibold mb-2">{member.role}</p>

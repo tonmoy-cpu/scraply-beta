@@ -2,7 +2,14 @@ import React from 'react'
 import Hero from './Hero'
 import Features from './Features'
 import FAQ from './FAQ'
-import EducationalPopup from './EducationalPopup'
+// import EducationalPopup from './EducationalPopup'
+import dynamic from "next/dynamic";
+
+const EducationalPopup = dynamic(
+  () => import("./EducationalPopup"),
+  { ssr: false }
+);
+
 
 type Props = {}
 

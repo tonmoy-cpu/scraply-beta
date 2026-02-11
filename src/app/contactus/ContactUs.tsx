@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { IonIcon } from "@ionic/react";
+// import { IonIcon } from "@ionic/react";
 import {
   location,
   call,
@@ -15,6 +15,12 @@ import emailjs from "@emailjs/browser";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Head from "next/head";
+import dynamic from "next/dynamic";
+
+const IonIcon = dynamic(
+  () => import("@ionic/react").then((mod) => mod.IonIcon),
+  { ssr: false }
+);
 
 
 const ContactUs = () => {

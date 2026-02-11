@@ -288,7 +288,7 @@ const PopupManagement: React.FC = () => {
 
               <div className="flex space-x-2 ml-4">
                 <button
-                  onClick={() => handleEdit(popup)}
+                  // onClick={() => handleEdit(popup)}
                   className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                 >
                   <FiEdit />

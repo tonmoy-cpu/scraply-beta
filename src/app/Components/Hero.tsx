@@ -4,12 +4,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import hero from "../../assets/hero-banner.png";
-import { IonIcon } from "@ionic/react";
+// import { IonIcon } from "@ionic/react";
 import { play } from "ionicons/icons";
 import animationData from "../../assets/animation.json";
-import Lottie from "lottie-react";
+// import Lottie from "lottie-react";
 import axios from "axios";
 import logo from "../../assets/gemini-color.png";
+import dynamic from "next/dynamic";
+
+const IonIcon = dynamic(
+  () => import("@ionic/react").then((mod) => mod.IonIcon),
+  { ssr: false }
+);
+const Lottie = dynamic(() => import("lottie-react"), {
+  ssr: false,
+});
+
 
 const solutions = [
   "Recycling Solution",
@@ -64,58 +74,78 @@ const HeroSection: React.FC = () => {
 
   // Close chatbox when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (chatBoxRef.current && !chatBoxRef.current.contains(event.target as Node)) {
-        setIsChatOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  if (typeof document === "undefined") return;
 
-  // Handle sending a message
-  const handleSendMessage = async () => {
-    if (!userInput.trim()) {
-      return;
-    }
-
-    const newMessage: ChatMessage = { role: "user", content: userInput };
-    setMessages((prev) => [...prev, newMessage]);
-    setUserInput("");
-    setIsLoading(true);
-
-    try {
-      const response = await axios.post("https://scraply-beta.onrender.com/api/chat", {
-        message: userInput,
-      });
-      
-      if (!response || !response.data) {
-        throw new Error("Invalid response from server");
-      }
-      
-      const assistantMessage: ChatMessage = {
-        role: "assistant",
-        content: response.data.reply || "Sorry, I couldn't generate a response.",
-      };
-      setMessages((prev) => [...prev, assistantMessage]);
-    } catch (error) {
-      console.error("Error sending message:", error);
-      let errorMessage = "Sorry, something went wrong. Try again later.";
-      
-      if (error.response?.status === 404) {
-        errorMessage = "Chat service unavailable. Please check if the backend server is running.";
-      } else if (error.code === 'NETWORK_ERROR') {
-        errorMessage = "Network error. Please check your connection.";
-      }
-      
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: errorMessage },
-      ]);
-    } finally {
-      setIsLoading(false);
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      chatBoxRef.current &&
+      !chatBoxRef.current.contains(event.target as Node)
+    ) {
+      setIsChatOpen(false);
     }
   };
+
+  document.addEventListener("mousedown", handleClickOutside);
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
+
+
+  // Handle sending a message
+ const handleSendMessage = async () => {
+  if (!userInput.trim()) {
+    return;
+  }
+
+  const newMessage: ChatMessage = { role: "user", content: userInput };
+  setMessages((prev) => [...prev, newMessage]);
+  setUserInput("");
+  setIsLoading(true);
+
+  try {
+    const response = await axios.post(
+      "https://scraply-beta.onrender.com/api/chat",
+      { message: userInput }
+    );
+
+    if (!response || !response.data) {
+      throw new Error("Invalid response from server");
+    }
+
+    const assistantMessage: ChatMessage = {
+      role: "assistant",
+      content:
+        response.data.reply ||
+        "Sorry, I couldn't generate a response.",
+    };
+
+    setMessages((prev) => [...prev, assistantMessage]);
+  } catch (error) {
+    console.error("Error sending message:", error);
+    let errorMessage =
+      "Sorry, something went wrong. Try again later.";
+
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 404) {
+        errorMessage =
+          "Chat service unavailable. Please check if the backend server is running.";
+      } else if (error.code === "ERR_NETWORK") {
+        errorMessage =
+          "Network error. Please check your connection.";
+      }
+    }
+
+    setMessages((prev) => [
+      ...prev,
+      { role: "assistant", content: errorMessage },
+    ]);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   // Handle Enter key press
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -187,8 +217,8 @@ const HeroSection: React.FC = () => {
             alt="Chat with Gemini"
             width={50}
             height={50}
-            className="w-10 h-10"
-            unoptimized
+            className="w-10 h-auto"
+            priority
           />
         </button>
 

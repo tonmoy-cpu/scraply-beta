@@ -67,14 +67,23 @@ const Smartphone: React.FC = () => {
         console.log("Facility data from API:", data);
         setFacilityData(Array.isArray(data) ? data : []);
       } catch (error) {
-        console.error("Error fetching facilities:", error);
-        setApiError(error.message || "Failed to load facilities.");
-        toast.error("Failed to load facilities. Using fallback data.", {
-          autoClose: 3000,
-        });
-      } finally {
-        setIsFetchingFacilities(false);
-      }
+  console.error("Error fetching facilities:", error);
+
+  let errorMessage = "Failed to load facilities.";
+
+  if (error instanceof Error) {
+    errorMessage = error.message;
+  }
+
+  setApiError(errorMessage);
+
+  toast.error("Failed to load facilities. Using fallback data.", {
+    autoClose: 3000,
+  });
+} finally {
+  setIsFetchingFacilities(false);
+}
+
     };
     fetchFacilities();
   }, []);
